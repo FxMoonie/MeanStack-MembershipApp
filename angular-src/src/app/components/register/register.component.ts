@@ -1,6 +1,8 @@
 import { ValidateService } from '../../services/validate.service';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private validateService: ValidateService,
-    private snackBar: MatSnackBar  
+    private snackBar: MatSnackBar,
+    private authService:AuthService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -43,6 +47,16 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
+    this.authService.registerUser(user).subscribe((data: any) => {
+      if(data.success){
+        this.showSnackBar('You are now registered');
+        this.router.navigate(['/login']);
+      } else {
+        this.showSnackBar('Something went wrong');
+        this.router.navigate(['/register']);
+      }
+    });
+
     return true;
   }
   private showSnackBar(message: string) {
@@ -50,6 +64,7 @@ export class RegisterComponent implements OnInit {
       duration: 5000,
       panelClass: ['error'], 
     });
+
   }
 
 }
