@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class NavbarComponent implements OnInit {
 
   constructor(
-    private authService:AuthService,
+    public authService:AuthService,
     private router:Router,
     private snackBar: MatSnackBar
   ) { }
@@ -33,5 +33,5 @@ export class NavbarComponent implements OnInit {
       panelClass: ['error'], 
     });
 
-}
+  }
 }

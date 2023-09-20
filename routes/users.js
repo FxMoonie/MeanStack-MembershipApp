@@ -42,7 +42,8 @@ router.post('/authenticate', async (req, res, next) => {
 
             res.json({
                 success: true,
-                token: 'JWT '+ token, 
+                token: token,
+               // token: 'JWT '+ token, 
                 user: {
                     id: user._id,
                     name: user.name,
@@ -92,6 +93,7 @@ router.get('/profile', (req, res, next) => {
             return res.status(401).json({ success: false, msg: 'Unauthorized' });
         }
         res.json({ user: decoded.data });
+        
     });
 });
 
