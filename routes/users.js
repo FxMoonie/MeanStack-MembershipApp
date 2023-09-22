@@ -94,8 +94,36 @@ router.get('/profile', (req, res, next) => {
         }
         res.json({ user: decoded.data });
         
+    const user = decoded.data;
+    res.json({ user });
     });
 });
+
+// Dashboard Direct JWT Verification 
+router.get('/dashboard', (req, res, next) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(401).json({ success: false, msg: 'Unauthorized' });
+    }
+  
+    jwt.verify(token, config.secret, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ success: false, msg: 'Unauthorized' });
+      }
+  
+      try {
+        const userCount = await User.countDocuments({});
+        const users = await User.find({}, 'name');
+  
+        res.json({ userCount, users });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, msg: 'Server error' });
+      }
+    });
+  });
+  
 
 
 module.exports = router;

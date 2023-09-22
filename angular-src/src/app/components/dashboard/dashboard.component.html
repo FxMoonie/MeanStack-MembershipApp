@@ -1,2 +1,10 @@
 <h2 class="page-header">Dashboard</h2>
-<p>Welcome to your dashboard</p>
+<p><strong>Welcome to your dashboard</strong></p>
+
+
+<p>Number of registered users: <strong>{{ userCount }} </strong></p>
+
+
+<ul>
+  <li *ngFor="let user of users">{{ user }}</li>
+</ul>
