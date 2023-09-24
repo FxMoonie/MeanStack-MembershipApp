@@ -124,6 +124,28 @@ router.get('/dashboard', (req, res, next) => {
     });
   });
   
+  router.delete('/delete', async (req, res, next) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(401).json({ success: false, msg: 'Unauthorized' });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, config.secret);
+      const user = await User.findOneAndRemove({ _id: decoded.data._id });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, msg: 'User not found' });
+      }
+  
+      res.json({ success: true, msg: 'User account deleted' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, msg: 'Error deleting user account' });
+    }
+  });
+  
 
 
 module.exports = router;

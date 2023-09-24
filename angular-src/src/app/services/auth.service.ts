@@ -97,6 +97,16 @@ export class AuthService {
     }
   }
 
+  deleteUser() {
+    this.loadToken();
+    const headers = new HttpHeaders({
+      'Authorization': this.authToken,
+      'Content-Type': 'application/json'
+    });
+  
+    return this.http.delete('http://localhost:3000/users/delete', { headers }).pipe(map((res) => res));
+  }
+
   private decodeToken(token: string): any {
     try {
       return JSON.parse(atob(token.split('.')[1]));
