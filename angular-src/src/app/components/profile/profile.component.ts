@@ -51,6 +51,9 @@ export class ProfileComponent implements OnInit {
       this.authService.deleteUser().subscribe(
         (data: any) => {
           if (data.success) {
+            localStorage.clear();
+            this.authService.authToken = null;
+            this.authService.user = null;
             this.router.navigate(['/login']);
             this.showSnackBar('Your account has been successfully deleted');
           } else {
